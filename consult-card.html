@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Book Your Consult</title>
+<style>
+  body{
+    margin:0;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+    background:#0b0b0b;
+    color:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+  }
+  .card{
+    width:90%;
+    max-width:380px;
+    background:#111;
+    border-radius:16px;
+    padding:22px;
+    box-shadow:0 8px 24px rgba(0,0,0,.6);
+    border:1px solid rgba(255,255,255,.05);
+  }
+  h1{font-size:20px;margin:0 0 6px 0;}
+  p{font-size:13px;color:#cfcfcf;margin:0 0 18px 0;}
+  label{font-size:13px;color:#bfbfbf;}
+  select,input{
+    width:100%;
+    padding:10px;
+    margin:6px 0 14px 0;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,.1);
+    background:#0b0b0b;
+    color:#fff;
+    font-size:14px;
+  }
+  .time-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+    margin-bottom:14px;
+  }
+  .time-slot{
+    padding:8px 6px;
+    text-align:center;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:8px;
+    font-size:13px;
+    cursor:pointer;
+  }
+  .time-slot.selected{background:#8b0000;border-color:#8b0000;}
+  button{
+    width:100%;
+    background:#8b0000;
+    border:none;
+    color:#fff;
+    font-weight:600;
+    padding:12px;
+    border-radius:10px;
+    font-size:15px;
+  }
+  .confirm{
+    margin-top:14px;
+    background:rgba(139,0,0,.08);
+    padding:10px;
+    border-radius:10px;
+    font-size:13px;
+    display:none;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>Schedule Your Consult</h1>
+    <p>30 min — Confidential, no-commitment consult</p>
+
+    <label for="reason">Reason for meeting</label>
+    <select id="reason">
+      <option>Quick Strategy Session</option>
+      <option>Private Performance Review</option>
+      <option>After-Hours Debrief</option>
+      <option>Confidential Feedback</option>
+      <option>One-on-One Coaching</option>
+      <option>Team Building (Close Quarters)</option>
+      <option>Follow-Up Chemistry Check</option>
+      <option>Other: Discuss Over Drinks</option>
+    </select>
+
+    <label>Select a time</label>
+    <div class="time-grid" id="times">
+      <div class="time-slot">8:00 PM</div>
+      <div class="time-slot">8:30 PM</div>
+      <div class="time-slot">9:00 PM</div>
+      <div class="time-slot">9:30 PM</div>
+      <div class="time-slot">10:00 PM</div>
+      <div class="time-slot">10:30 PM</div>
+      <div class="time-slot">11:00 PM</div>
+      <div class="time-slot">Bedtime – Let’s reconvene at breakfast 😴</div>
+    </div>
+
+    <label for="name">Your name</label>
+    <input id="name" placeholder="Full name (optional)" />
+
+    <button id="book">Book Consult</button>
+
+    <div class="confirm" id="confirm"></div>
+  </div>
+
+<script>
+  const slots=document.querySelectorAll('.time-slot');
+  slots.forEach(s=>s.addEventListener('click',e=>{
+    slots.forEach(x=>x.classList.remove('selected'));
+    e.currentTarget.classList.add('selected');
+  }));
+
+  document.getElementById('book').addEventListener('click',()=>{
+    const reason=document.getElementById('reason').value;
+    const name=document.getElementById('name').value||'Anonymous';
+    const chosen=document.querySelector('.time-slot.selected');
+    const confirm=document.getElementById('confirm');
+    if(!chosen){
+      alert("Pick a time slot first 😉");
+      return;
+    }
+    const time=chosen.textContent;
+    confirm.style.display='block';
+    confirm.innerHTML=`
+      <strong>Consult confirmed</strong><br>
+      📅 ${time} — ${reason}<br><br>
+      Thanks ${name}!<br>
+      <em>This one's just for the joke — hope it made you smile 😏</em>
+    `;
+  });
+</script>
+</body>
+</html>
